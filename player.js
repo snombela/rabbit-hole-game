@@ -7,6 +7,8 @@ function Player (game){
     this.speedX = 0; 
     this.speedY = 0;
     this.setListeners();
+    this.followObstacles = [];
+
 }
 
 Player.prototype.move = function() {
