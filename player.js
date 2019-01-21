@@ -7,7 +7,7 @@ function Player (game){
     this.speedX = 0; 
     this.speedY = 0;
     this.setListeners();
-    this.followObstacles = [];
+    this.followObject = [];
 
 }
 
@@ -30,19 +30,19 @@ Player.prototype.move = function() {
 }
 
 Player.prototype.moveUp = function(){
-        this.speedY -= 0.3;
+        this.speedY = -6;
 }
 
 Player.prototype.moveDown = function(){
-        this.speedY += 0.3;
+        this.speedY = 6;
 }
 
 Player.prototype.moveLeft = function(){
-        this.speedX -= 0.3;
+        this.speedX = -6;
 }
 
 Player.prototype.moveRight = function(){
-        this.speedX += 0.3;
+        this.speedX = 6;
 } 
 
 Player.prototype.draw = function (){
