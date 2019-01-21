@@ -8,6 +8,7 @@ function Player (game){
     this.speedY = 0;
     this.setListeners();
     this.followObject = [];
+    this.movements = [];
 
 }
 
@@ -26,6 +27,15 @@ Player.prototype.move = function() {
         this.x = this.radius;
     } else {
         this.x = this.game.canvas.width - this.radius;
+    }
+
+    if (this.movements.length != 0){
+        var lastPosition = this.movements[this.movements.length-1];
+        if(lastPosition.x != this.x || lastPosition.y != this.y){
+            this.movements.push({x: this.x, y: this.y}); //Me almaceno el valor de x e y, y lo mando a un array que necesitaré para que los objetos sigan al player.
+        } 
+    } else {
+        this.movements.push({x: this.x, y: this.y}); //Me guardo la primera posición en la que estoy porque si no en las siguientes siempre será 0;
     }
 }
 
@@ -53,6 +63,19 @@ Player.prototype.draw = function (){
     this.game.ctx.arc(this.x, this.y, this.radius, startAngle, endAngle, true);
     this.game.ctx.stroke();
     this.game.ctx.fill(); 
+
+    this.followObject.forEach(function(object, index) {
+        
+        var lastPosition = this.movements[this.movements.length - (5 *(index+1))]; //Accedo a la última posición de mi array pero en vez de poner - 1 ponemos menos 5 por la posición actual para que vayan saliendo uno detrás de otro. No podemos poner 1 porque saldrían muy juntos.
+        this.game.ctx.fillStyle='#456424';
+        this.game.ctx.beginPath();
+        var startAngle = 0; 
+        var endAngle = Math.PI * 2;
+        this.game.ctx.arc(lastPosition.x, lastPosition.y, 10, startAngle, endAngle, true);
+        this.game.ctx.stroke();
+        this.game.ctx.fill(); 
+    }.bind(this));
+    
 }
 
 Player.prototype.setListeners = function (){
@@ -74,5 +97,7 @@ Player.prototype.setListeners = function (){
         }
     }.bind(this);
 }
+
+
 
 

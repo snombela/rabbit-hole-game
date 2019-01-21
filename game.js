@@ -12,7 +12,7 @@ function Game(canvasId) {
 }
 Game.prototype.init = function() {
     this.player.draw();
-    for (var i = 0; i<5; i++) {
+    for (var i = 0; i<10; i++) {
         object = new Object(this);
         object.draw();
         this.objects.push(object)
@@ -21,7 +21,7 @@ Game.prototype.init = function() {
 }
 
 Game.prototype.update = function() {
-    this.interval = setInterval(function(){
+    this.interval = setInterval(function() {
         this.ctx.clearRect(0, 0, 1500, 1700); 
         this.player.draw();
         this.player.move();
@@ -34,7 +34,7 @@ Game.prototype.update = function() {
 Game.prototype.collisionObject = function() {
     this.objects.forEach(function(object, i) {
         if (Math.sqrt((this.player.x - object.x) * (this.player.x - object.x)+
-        (this.player.y - object.y)*(this.player.y - object.y)) < this.player.radius + 
+        (this.player.y - object.y) * (this.player.y - object.y)) < this.player.radius + 
         object.radius) {
             this.player.followObject.push(this.objects.splice(i, 1));
         }
