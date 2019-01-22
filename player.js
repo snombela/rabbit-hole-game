@@ -3,7 +3,7 @@ function Player (game){
     this.game = game; //Hago esto para almacenar y poder llamarlo abajo en las funciones.
     this.x = this.game.canvas.width / 2;
     this.y = this.game.canvas.height / 2;
-    this.radius = 20;
+    this.size = 80;
     this.distance = 8;
     this.speedX = 0; 
     this.speedY = 0;
@@ -11,6 +11,8 @@ function Player (game){
     this.followObject = [];
     this.movements = [];
     this.framesCounter = 0;
+    this.img = new Image();
+    this.img.src = "img/rabbit.png";
 }
 
 Player.prototype.moveUp = function(){
@@ -38,20 +40,20 @@ Player.prototype.crash = function(object) {
 }
 
 Player.prototype.move = function() {
-    if (this.y >= this.radius && this.y <= this.game.canvas.height - this.radius){
+    if (this.y >= this.size/2 && this.y <= this.game.canvas.height - this.size/2) {
         this.y += this.speedY;
-    } else if (this.y < this.radius){
-        this.y = this.radius;
+    } else if (this.y < this.size/2){
+        this.y = this.size/2;
     } else {
-        this.y = this.game.canvas.height - this.radius;
+        this.y = this.game.canvas.height - this.size/2;
     }
 
-    if(this.x >= this.radius && this.x <= this.game.canvas.width - this.radius) {
+    if(this.x >= this.size/2 && this.x <= this.game.canvas.width - this.size/2) {
         this.x += this.speedX;
-    } else if (this.x < this.radius){
-        this.x = this.radius;
+    } else if (this.x < this.size/2){
+        this.x = this.size/2;
     } else {
-        this.x = this.game.canvas.width - this.radius;
+        this.x = this.game.canvas.width - this.size/2;
     }
 
     if (this.movements.length != 0){
@@ -72,13 +74,8 @@ Player.prototype.move = function() {
 }
 
 Player.prototype.draw = function (){
-    this.game.ctx.fillStyle='white';
-    this.game.ctx.beginPath();
-    var startAngle = 0; 
-    var endAngle = Math.PI * 2;
-    this.game.ctx.arc(this.x, this.y, this.radius, startAngle, endAngle, true);
-    this.game.ctx.stroke();
-    this.game.ctx.fill(); 
+    var middle = this.size / 2;
+    this.game.ctx.drawImage(this.img, this.x - middle, this.y - middle, this.size, this.size);
 
     this.followObject.forEach(function(object, index) {
     

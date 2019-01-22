@@ -4,7 +4,7 @@ function Object(game) {
     this.originalY = Math.random() * this.game.canvas.height;
     this.x = this.originalX;
     this.y = this.originalY;
-    this.radius = 40;
+    this.size = 40;
     this.img = new Image();
     this.img.src = "img/carrot.png";
 }
@@ -15,6 +15,6 @@ Object.prototype.reset = function () {
 }
 
 Object.prototype.draw = function () {
-    var middle = this.radius / 2;
-    this.game.ctx.drawImage(this.img, this.x - middle, this.y - middle, this.radius, this.radius);
+    var middle = this.size / 2;
+    this.game.ctx.drawImage(this.img, this.x - middle, this.y - middle, this.size, this.size);
 }

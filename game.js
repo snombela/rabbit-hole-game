@@ -46,8 +46,8 @@ Game.prototype.update = function() {
 Game.prototype.collisionObject = function() {
     this.objects.forEach(function(object, i) {
         if (Math.sqrt((this.player.x - object.originalX) * (this.player.x - object.originalX)+
-        (this.player.y - object.originalY) * (this.player.y - object.originalY)) < this.player.radius + 
-        object.radius) {
+        (this.player.y - object.originalY) * (this.player.y - object.originalY)) < this.player.size/2 + 
+        object.size/2) {
             var objectRemove = this.objects.splice(i, 1)[0];
             this.player.followObject.push(objectRemove)
         }
@@ -57,7 +57,7 @@ Game.prototype.collisionObject = function() {
 Game.prototype.collisionEnemy = function (){
     this.enemy.forEach(function(enemy){
         if (Math.sqrt((this.player.x - enemy.x) * (this.player.x - enemy.x)+
-            (this.player.y - enemy.y) * (this.player.y - enemy.y)) < this.player.radius + 
+            (this.player.y - enemy.y) * (this.player.y - enemy.y)) < this.player.size/2 + 
             enemy.radius) {
            this.gameOver();
            alert ("Game Over")
@@ -82,7 +82,7 @@ Game.prototype.stealObjects = function (){
         this.player.followObject.forEach(function(object, index) {
 
             var distance = Math.sqrt((enemy.x -  object.x) * (enemy.x - object.x) + (enemy.y - object.y) * (enemy.y - object.y))
-            if (distance < enemy.radius + object.radius){
+            if (distance < enemy.radius + object.size/2){
                 var newObjectDraw = this.player.crash(object)
                 this.objects.push(...newObjectDraw);
             } 
