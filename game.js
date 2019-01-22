@@ -27,11 +27,12 @@ Game.prototype.update = function() {
         this.player.draw();
         this.player.move();
         this.objects.forEach(object => object.draw())
-        this.collisionObject()
+        this.collisionObject();
         this.enemy.forEach(function(e){
             e.draw();
             e.move();
         })
+        this.collisionEnemy();
         
     }.bind(this), 1000/60);
 }
@@ -46,5 +47,23 @@ Game.prototype.collisionObject = function() {
     }.bind(this))
 }
 
-	
+Game.prototype.collisionEnemy = function (){
+    this.enemy.forEach(function(enemy){
+        if (Math.sqrt((this.player.x - enemy.x) * (this.player.x - enemy.x)+
+            (this.player.y - enemy.y) * (this.player.y - enemy.y)) < this.player.radius + 
+            enemy.radius) {
+            return alert ("Game Over");
+        }
+        
+    }.bind(this));
+    // gameOver();
+}
 
+/* Game.prototype.gameOver = function (){
+    this.player = new Player(this);
+    this.enemy = [new Enemey(this), new Enemy(this)];
+    this.objects = [];
+    this.init();
+}
+	
+ */
