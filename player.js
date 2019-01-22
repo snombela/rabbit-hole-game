@@ -12,6 +12,32 @@ function Player (game){
     this.framesCounter = 0;
 }
 
+Player.prototype.moveUp = function(){
+    this.speedY = -6;
+}
+
+Player.prototype.moveDown = function(){
+    this.speedY = 6;
+}
+
+Player.prototype.moveLeft = function(){
+    this.speedX = -6;
+}
+
+Player.prototype.moveRight = function(){
+    this.speedX = 6;
+} 
+
+Player.prototype.addFollowObject = function(object) {
+    this.followObject.push(object);
+}
+
+Player.prototype.crash = function(object){
+    var positionObject = this.followObject.indexOf(object);
+    var count = this.followObject.length - positionObject;
+    return this.followObject.splice(positionObject, count);
+}
+
 Player.prototype.move = function() {
     if (this.y >= this.radius && this.y <= this.game.canvas.height - this.radius){
         this.y += this.speedY;
@@ -38,7 +64,6 @@ Player.prototype.move = function() {
         this.movements.push({x: this.x, y: this.y}); //Me guardo la primera posición en la que estoy porque si no en las siguientes siempre será 0;
     }
 
-
     this.framesCounter++;
 
     if(this.framesCounter % 300 == 0 && this.movements.length > 200) {
@@ -46,22 +71,6 @@ Player.prototype.move = function() {
         this.movements.splice(0, size);
     }
 }
-
-Player.prototype.moveUp = function(){
-        this.speedY = -6;
-}
-
-Player.prototype.moveDown = function(){
-        this.speedY = 6;
-}
-
-Player.prototype.moveLeft = function(){
-        this.speedX = -6;
-}
-
-Player.prototype.moveRight = function(){
-        this.speedX = 6;
-} 
 
 Player.prototype.draw = function (){
     this.game.ctx.fillStyle='white';
@@ -73,13 +82,17 @@ Player.prototype.draw = function (){
     this.game.ctx.fill(); 
 
     this.followObject.forEach(function(object, index) {
-        
+    
         var lastPosition = this.movements[this.movements.length - (5 *(index+1))]; //Accedo a la última posición de mi array pero en vez de poner - 1 ponemos menos 5 por la posición actual para que vayan saliendo uno detrás de otro. No podemos poner 1 porque saldrían muy juntos.
+
+        object.x = lastPosition.x;
+        object.y = lastPosition.y;
+
         this.game.ctx.fillStyle='orange';
         this.game.ctx.beginPath();
         var startAngle = 0; 
         var endAngle = Math.PI * 2;
-        this.game.ctx.arc(lastPosition.x, lastPosition.y, 10, startAngle, endAngle, true);
+        this.game.ctx.arc(object.x, object.y, 10, startAngle, endAngle, true);
         this.game.ctx.stroke();
         this.game.ctx.fill(); 
     }.bind(this));

@@ -8,6 +8,7 @@ function Game(canvasId) {
   this.player = new Player(this);
   this.enemy = [new Enemy(this), new Enemy(this)];
   this.objects = [];
+  this.fps = 60;
   this.init();
 
 }
@@ -35,15 +36,16 @@ Game.prototype.update = function() {
         })
         // this.collisionEnemy();
         this.stealObjects();
-    }.bind(this), 1000/60);
+    }.bind(this), 1000 / this.fps);
 }
 
 Game.prototype.collisionObject = function() {
     this.objects.forEach(function(object, i) {
-        if (Math.sqrt((this.player.x - object.x) * (this.player.x - object.x)+
-        (this.player.y - object.y) * (this.player.y - object.y)) < this.player.radius + 
+        if (Math.sqrt((this.player.x - object.originalX) * (this.player.x - object.originalX)+
+        (this.player.y - object.originalY) * (this.player.y - object.originalY)) < this.player.radius + 
         object.radius) {
-            this.player.followObject.push(this.objects.splice(i, 1));
+            var objectRemove = this.objects.splice(i, 1)[0];
+            this.player.addFollowObject(objectRemove)
         }
     }.bind(this))
 }
@@ -68,32 +70,19 @@ Game.prototype.stop = function (){
 }
 
 Game.prototype.stealObjects = function (){
+    if (this.player.followObject.length === 0) { return; }
+
     this.enemy.forEach(function(enemy){
-        if (this.player.followObject.length != 0){
-            
-            this.player.followObject.forEach(function(object, index) {
-                
-                var lastPosition = this.player.movements[this.player.movements.length - (5 *(index+1))];
-                if (Math.sqrt((enemy.x - lastPosition.x) * (enemy.x - lastPosition.x)+
-                (enemy.y - lastPosition.y) * (enemy.y - lastPosition.y)) < enemy.radius + 
-                object.radius){
-                    console.log('choca')
-                } 
-            }.bind(this))
-            /* this.player.movements.forEach(function(object){
-                if (Math.sqrt((enemy.x - object.x) * (enemy.x - object.x)+
-                (enemy.y - object.y) * (enemy.y - object.y)) < enemy.radius + 
-                object.radius){
-                    console.log('choca')
-                } 
-            })*/
-        }
+        this.player.followObject.forEach(function(object, index) {
+
+            var distance = Math.sqrt((enemy.x -  object.x) * (enemy.x - object.x) + (enemy.y - object.y) * (enemy.y - object.y))
+            if (distance < enemy.radius + object.radius){
+                var newObjectDraw = this.player.crash(object)
+                this.objects.push(...newObjectDraw);
+            } 
+
+        }.bind(this))
+          
+        
     }.bind(this))
 }
-
-
-
-/*Enemy tiene que chocar con los objects.
- Nos guardamos la posición en la que ha chocado del array y a partir de ese hacemos un slice y borramos.
- La cantidad de objetos que tiene el array lo tiene que colocar nuevamente en el tablero para que 
- el player lo coja.*/
