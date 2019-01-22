@@ -1,5 +1,9 @@
 window.onload = function() {
-  game = new Game("#canvas");
+    newGame();
+};
+
+function newGame(){
+    game = new Game("#canvas");
 };
 
 function Game(canvasId) {
@@ -34,7 +38,7 @@ Game.prototype.update = function() {
             e.draw();
             e.move();
         })
-        // this.collisionEnemy();
+        this.collisionEnemy();
         this.stealObjects();
     }.bind(this), 1000 / this.fps);
 }
@@ -63,11 +67,13 @@ Game.prototype.collisionEnemy = function (){
 
 Game.prototype.gameOver = function (){
     this.stop();
+    newGame();
 }
 
 Game.prototype.stop = function (){
      clearInterval(this.interval);
 }
+
 
 Game.prototype.stealObjects = function (){
     if (this.player.followObject.length === 0) { return; }
