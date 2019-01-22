@@ -49,7 +49,7 @@ Game.prototype.collisionObject = function() {
         (this.player.y - object.originalY) * (this.player.y - object.originalY)) < this.player.radius + 
         object.radius) {
             var objectRemove = this.objects.splice(i, 1)[0];
-            this.player.addFollowObject(objectRemove)
+            this.player.followObject.push(objectRemove)
         }
     }.bind(this))
 }

@@ -4,6 +4,7 @@ function Player (game){
     this.x = this.game.canvas.width / 2;
     this.y = this.game.canvas.height / 2;
     this.radius = 20;
+    this.distance = 8;
     this.speedX = 0; 
     this.speedY = 0;
     this.setListeners();
@@ -20,22 +21,20 @@ Player.prototype.moveDown = function(){
     this.speedY = 6;
 }
 
-Player.prototype.moveLeft = function(){
+Player.prototype.moveLeft = function() {
     this.speedX = -6;
 }
 
-Player.prototype.moveRight = function(){
+Player.prototype.moveRight = function() {
     this.speedX = 6;
 } 
 
-Player.prototype.addFollowObject = function(object) {
-    this.followObject.push(object);
-}
-
-Player.prototype.crash = function(object){
+Player.prototype.crash = function(object) {
     var positionObject = this.followObject.indexOf(object);
     var count = this.followObject.length - positionObject;
-    return this.followObject.splice(positionObject, count);
+    var newObjects = this.followObject.splice(positionObject, count);
+    newObjects.forEach(object => object.reset())
+    return newObjects
 }
 
 Player.prototype.move = function() {
@@ -56,7 +55,7 @@ Player.prototype.move = function() {
     }
 
     if (this.movements.length != 0){
-        var lastPosition = this.movements[this.movements.length-1];
+        var lastPosition = this.movements[this.movements.length - 1];
         if(lastPosition.x != this.x || lastPosition.y != this.y){
             this.movements.push({x: this.x, y: this.y}); //Me almaceno el valor de x e y, y lo mando a un array que necesitaré para que los objetos sigan al player.
         } 
@@ -76,27 +75,20 @@ Player.prototype.draw = function (){
     this.game.ctx.fillStyle='white';
     this.game.ctx.beginPath();
     var startAngle = 0; 
-    var endAngle = Math.PI*2;
+    var endAngle = Math.PI * 2;
     this.game.ctx.arc(this.x, this.y, this.radius, startAngle, endAngle, true);
     this.game.ctx.stroke();
     this.game.ctx.fill(); 
 
     this.followObject.forEach(function(object, index) {
     
-        var lastPosition = this.movements[this.movements.length - (5 *(index+1))]; //Accedo a la última posición de mi array pero en vez de poner - 1 ponemos menos 5 por la posición actual para que vayan saliendo uno detrás de otro. No podemos poner 1 porque saldrían muy juntos.
+        var lastPosition = this.movements[this.movements.length - (this.distance * (index+1))]; //Accedo a la última posición de mi array pero en vez de poner - 1 ponemos menos 5 por la posición actual para que vayan saliendo uno detrás de otro. No podemos poner 1 porque saldrían muy juntos.
 
         object.x = lastPosition.x;
         object.y = lastPosition.y;
 
-        this.game.ctx.fillStyle='orange';
-        this.game.ctx.beginPath();
-        var startAngle = 0; 
-        var endAngle = Math.PI * 2;
-        this.game.ctx.arc(object.x, object.y, 10, startAngle, endAngle, true);
-        this.game.ctx.stroke();
-        this.game.ctx.fill(); 
-    }.bind(this));
-    
+        object.draw();
+    }.bind(this));   
 }
 
 Player.prototype.setListeners = function (){

@@ -4,16 +4,17 @@ function Object(game) {
     this.originalY = Math.random() * this.game.canvas.height;
     this.x = this.originalX;
     this.y = this.originalY;
-    this.radius = 10;
+    this.radius = 40;
+    this.img = new Image();
+    this.img.src = "img/carrot.png";
 }
 
-Object.prototype.draw = function (){
-    this.game.ctx.fillStyle='orange';
-    this.game.ctx.beginPath();
-    var startAngle = 0; 
-    var endAngle = Math.PI*2;
-    this.game.ctx.arc(this.originalX, this.originalY, this.radius, startAngle, endAngle, true);
-    this.game.ctx.stroke();
-    this.game.ctx.fill(); 
+Object.prototype.reset = function () {
+    this.x = this.originalX;
+    this.y = this.originalY;
 }
 
+Object.prototype.draw = function () {
+    var middle = this.radius / 2;
+    this.game.ctx.drawImage(this.img, this.x - middle, this.y - middle, this.radius, this.radius);
+}
