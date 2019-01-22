@@ -56,7 +56,7 @@ Player.prototype.moveRight = function(){
 } 
 
 Player.prototype.draw = function (){
-    this.game.ctx.fillStyle='red';
+    this.game.ctx.fillStyle='white';
     this.game.ctx.beginPath();
     var startAngle = 0; 
     var endAngle = Math.PI*2;
@@ -67,7 +67,7 @@ Player.prototype.draw = function (){
     this.followObject.forEach(function(object, index) {
         
         var lastPosition = this.movements[this.movements.length - (5 *(index+1))]; //Accedo a la última posición de mi array pero en vez de poner - 1 ponemos menos 5 por la posición actual para que vayan saliendo uno detrás de otro. No podemos poner 1 porque saldrían muy juntos.
-        this.game.ctx.fillStyle='#456424';
+        this.game.ctx.fillStyle='orange';
         this.game.ctx.beginPath();
         var startAngle = 0; 
         var endAngle = Math.PI * 2;

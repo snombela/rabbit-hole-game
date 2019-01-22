@@ -1,12 +1,12 @@
-function Object(game) {
-    this.game = game
+function Enemy (game){
+    this.game = game;
     this.x = Math.random() * this.game.canvas.width;
     this.y = Math.random() * this.game.canvas.height;
-    this.radius = 10;
+    this.radius = 20;
 }
 
-Object.prototype.draw = function (){
-    this.game.ctx.fillStyle='orange';
+Enemy.prototype.draw = function (){
+    this.game.ctx.fillStyle='#8B0000';
     this.game.ctx.beginPath();
     var startAngle = 0; 
     var endAngle = Math.PI*2;
@@ -15,3 +15,6 @@ Object.prototype.draw = function (){
     this.game.ctx.fill(); 
 }
 
+// Enemy.prototype.move = function (){
+
+// }

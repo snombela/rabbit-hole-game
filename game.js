@@ -6,6 +6,7 @@ function Game(canvasId) {
   this.canvas = document.querySelector(canvasId);
   this.ctx = canvas.getContext("2d");
   this.player = new Player(this);
+  this.enemy = new Enemy(this);
   this.objects = [];
   this.init();
 
@@ -27,6 +28,7 @@ Game.prototype.update = function() {
         this.player.move();
         this.objects.forEach(object => object.draw())
         this.collisionObject()
+        this.enemy.draw();
         
     }.bind(this), 1000/60);
 }
@@ -41,12 +43,5 @@ Game.prototype.collisionObject = function() {
     }.bind(this))
 }
 
-
-    // (p.x + p.w > o.x && o.x + o.w > p.x && p.y + p.h > o.y && o.y + o.h > p.y )
-    // if ( Math.sqrt( ( x2-x1 ) * ( x2-x1 )  + ( y2-y1 ) * ( y2-y1 ) ) < ( radius1 + radius2 ) )
-
 	
 
-    // Crear una función que compruebe si hay colisión. Si es así devuelve true y 
-    // elimina el objeto del array con slice.Además, hay que añadir esto a update para que lo compruebe todo el tiempo.
-    // hacer push en this.objects... y dentro pongo eso.
