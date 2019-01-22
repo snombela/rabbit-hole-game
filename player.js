@@ -11,8 +11,11 @@ function Player (game){
     this.followObject = [];
     this.movements = [];
     this.framesCounter = 0;
-    this.img = new Image();
-    this.img.src = "img/rabbit.png";
+    this.direction = 0;
+    this.imgRight = new Image();
+    this.imgRight.src = "img/rabbit_right.png";
+    this.imgLeft = new Image();
+    this.imgLeft.src = "img/rabbit_left.png";
 }
 
 Player.prototype.moveUp = function(){
@@ -24,10 +27,12 @@ Player.prototype.moveDown = function(){
 }
 
 Player.prototype.moveLeft = function() {
+    this.direction = 1;
     this.speedX = -6;
 }
 
 Player.prototype.moveRight = function() {
+    this.direction = 0;
     this.speedX = 6;
 } 
 
@@ -75,8 +80,12 @@ Player.prototype.move = function() {
 
 Player.prototype.draw = function (){
     var middle = this.size / 2;
-    this.game.ctx.drawImage(this.img, this.x - middle, this.y - middle, this.size, this.size);
-
+    if (this.direction == 0) {
+        this.game.ctx.drawImage(this.imgRight, this.x - middle, this.y - middle, this.size, this.size);
+    } else {
+        this.game.ctx.drawImage(this.imgLeft, this.x - middle, this.y - middle, this.size, this.size);
+    }
+    
     this.followObject.forEach(function(object, index) {
     
         var lastPosition = this.movements[this.movements.length - (this.distance * (index+1))]; //Accedo a la última posición de mi array pero en vez de poner - 1 ponemos menos 5 por la posición actual para que vayan saliendo uno detrás de otro. No podemos poner 1 porque saldrían muy juntos.
