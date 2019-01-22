@@ -9,6 +9,7 @@ function Player (game){
     this.setListeners();
     this.followObject = [];
     this.movements = [];
+    this.framesCounter = 0;
 }
 
 Player.prototype.move = function() {
@@ -35,6 +36,14 @@ Player.prototype.move = function() {
         } 
     } else {
         this.movements.push({x: this.x, y: this.y}); //Me guardo la primera posición en la que estoy porque si no en las siguientes siempre será 0;
+    }
+
+
+    this.framesCounter++;
+
+    if(this.framesCounter % 300 == 0 && this.movements.length > 200) {
+        var size = this.movements.length/2
+        this.movements.splice(0, size);
     }
 }
 
