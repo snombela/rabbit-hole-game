@@ -9,7 +9,6 @@ function Player (game){
     this.setListeners();
     this.followObject = [];
     this.movements = [];
-
 }
 
 Player.prototype.move = function() {

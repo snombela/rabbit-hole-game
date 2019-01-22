@@ -6,7 +6,7 @@ function Game(canvasId) {
   this.canvas = document.querySelector(canvasId);
   this.ctx = canvas.getContext("2d");
   this.player = new Player(this);
-  this.enemy = new Enemy(this);
+  this.enemy = [new Enemy(this), new Enemy(this)];
   this.objects = [];
   this.init();
 
@@ -28,7 +28,10 @@ Game.prototype.update = function() {
         this.player.move();
         this.objects.forEach(object => object.draw())
         this.collisionObject()
-        this.enemy.draw();
+        this.enemy.forEach(function(e){
+            e.draw();
+            e.move();
+        })
         
     }.bind(this), 1000/60);
 }

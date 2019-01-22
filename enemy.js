@@ -3,6 +3,8 @@ function Enemy (game){
     this.x = Math.random() * this.game.canvas.width;
     this.y = Math.random() * this.game.canvas.height;
     this.radius = 20;
+    this.speedY = Math.random()* 6;
+    this.speedX = Math.random()* 6;
 }
 
 Enemy.prototype.draw = function (){
@@ -15,6 +17,25 @@ Enemy.prototype.draw = function (){
     this.game.ctx.fill(); 
 }
 
-// Enemy.prototype.move = function (){
+Enemy.prototype.move = function (){
+    if (this.y >= this.radius && this.y <= this.game.canvas.height - this.radius){
+        this.y += this.speedY;
+    } else if (this.y < this.radius){
+        this.y = this.radius;
+        this.speedY *= -1;
+    } else {
+        this.y = this.game.canvas.height - this.radius;
+        this.speedY *= -1;
+    }
 
-// }
+    if(this.x >= this.radius && this.x <= this.game.canvas.width - this.radius) {
+        this.x += this.speedX;
+    } else if (this.x < this.radius){
+        this.x = this.radius;
+        this.speedX *= -1;
+    } else {
+        this.x = this.game.canvas.width - this.radius;
+        this.speedX *= -1;
+    }
+}
+
