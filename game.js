@@ -10,20 +10,33 @@ function Game(canvasId) {
   this.canvas = document.querySelector(canvasId);
   this.ctx = canvas.getContext("2d");
   this.player = new Player(this);
-  this.enemy = [new Enemy(this), new Enemy(this)];
+  this.enemy = [];
   this.objects = [];
   this.fps = 60;
   this.init();
 
 }
+
+Game.prototype.generateEnemy = function (){
+    while (this.enemy.length < 2){
+    
+            var enemy = new Enemy(this);
+            if (this.checkCollisionEnemy(enemy)!== true){
+            this.enemy.push(enemy)
+            }
+    }
+}
 Game.prototype.init = function() {
     this.player.draw();
-    for (var i = 0; i<10; i++) {
-        object = new Object(this);
+    while (this.objects.length < 10){
+        var object = new Object(this);
+        if (this.checkCollisionObject(object)!== true){
         object.draw();
         this.objects.push(object)
+        }
+
     }
-    
+    this.generateEnemy();
     this.update();
 }
 
@@ -40,6 +53,8 @@ Game.prototype.update = function() {
         }.bind(this))
         this.collisionEnemy();
         this.stealObjects();
+        
+        // this.hole.draw();
     }.bind(this), 1000 / this.fps);
 }
 
@@ -74,7 +89,6 @@ Game.prototype.stop = function (){
      clearInterval(this.interval);
 }
 
-
 Game.prototype.stealObjects = function (){
     if (this.player.followObject.length === 0) { return; }
 
@@ -86,10 +100,18 @@ Game.prototype.stealObjects = function (){
                 var newObjectDraw = this.player.crash(object)
                 this.objects.push(...newObjectDraw);
             } 
-
         }.bind(this))
-          
-        
     }.bind(this))
 }
 
+Game.prototype.checkCollisionObject = function (object){
+        return (Math.sqrt((this.player.x - object.originalX) * (this.player.x - object.originalX)+
+        (this.player.y - object.originalY) * (this.player.y - object.originalY)) < this.player.size/2 + 
+        object.size/2) 
+}
+
+Game.prototype.checkCollisionEnemy = function (enemy){
+    return (Math.sqrt((this.player.x - enemy.x) * (this.player.x - enemy.x)+
+    (this.player.y - enemy.y) * (this.player.y - enemy.y)) < this.player.size/2 + 
+    enemy.size/2) 
+}
