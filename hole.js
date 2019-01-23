@@ -6,7 +6,6 @@ function Hole (game){
     this.y = 50;
     this.width = 200;
     this.height = 100;
-    this.size = 140;
 }
 
 Hole.prototype.draw = function (){
