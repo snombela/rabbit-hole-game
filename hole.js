@@ -2,10 +2,12 @@ function Hole (game){
     this.game = game;
     this.img = new Image();
     this.img.src = "img/Hole.png"
-    this.x = 50;
-    this.y = 50;
+
     this.width = 200;
-    this.height = 100;
+    this.height = 120;
+
+    this.x = Math.random() * (this.game.canvas.width - this.width);
+    this.y = Math.random() * (this.game.canvas.height - this.height);
 }
 
 Hole.prototype.draw = function (){
