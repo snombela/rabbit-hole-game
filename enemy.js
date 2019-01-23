@@ -1,8 +1,11 @@
 function Enemy (game){
     this.game = game;
-    this.x = Math.random() * this.game.canvas.width;
-    this.y = Math.random() * this.game.canvas.height;
+    
     this.size = 60;
+
+    this.x = Math.random() * (this.game.canvas.width - this.size) + this.size / 2;
+    this.y = Math.random() * (this.game.canvas.height - this.size) + this.size / 2;
+    
     this.speedY = Math.random() * 6;
     this.speedX = Math.random() * 6;
     this.img = new Image();
