@@ -10,15 +10,17 @@ function Game(canvasId) {
   this.canvas = document.querySelector(canvasId);
   this.ctx = canvas.getContext("2d");
   this.player = new Player(this);
+  this.hole = new Hole(this);
   this.enemy = [];
+  this.numberEnemies = 2;
   this.objects = [];
   this.fps = 60;
-  this.initObject = 10;
+  this.initObject = 3;
   this.init();
 }
 
 Game.prototype.generateEnemy = function (){
-    while (this.enemy.length < 2){
+    while (this.enemy.length < this.numberEnemies){
             var enemy = new Enemy(this);
             if (this.checkCollisionEnemy(enemy)!== true){
             this.enemy.push(enemy)
@@ -115,3 +117,4 @@ Game.prototype.checkCollisionEnemy = function (enemy){
     (this.player.y - enemy.y) * (this.player.y - enemy.y)) < this.player.size/2 + 
     enemy.size/2) 
 }
+
