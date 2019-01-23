@@ -13,13 +13,12 @@ function Game(canvasId) {
   this.enemy = [];
   this.objects = [];
   this.fps = 60;
+  this.initObject = 10;
   this.init();
-
 }
 
 Game.prototype.generateEnemy = function (){
     while (this.enemy.length < 2){
-    
             var enemy = new Enemy(this);
             if (this.checkCollisionEnemy(enemy)!== true){
             this.enemy.push(enemy)
@@ -28,13 +27,12 @@ Game.prototype.generateEnemy = function (){
 }
 Game.prototype.init = function() {
     this.player.draw();
-    while (this.objects.length < 10){
+    while (this.objects.length < this.initObject){
         var object = new Object(this);
         if (this.checkCollisionObject(object)!== true){
         object.draw();
         this.objects.push(object)
         }
-
     }
     this.generateEnemy();
     this.update();
@@ -53,8 +51,10 @@ Game.prototype.update = function() {
         }.bind(this))
         this.collisionEnemy();
         this.stealObjects();
-        
-        // this.hole.draw();
+        if (this.player.followObject.length === this.initObject){
+            console.log("son iguales")
+            this.hole.draw();
+        }
     }.bind(this), 1000 / this.fps);
 }
 

@@ -15,3 +15,4 @@ Hole.prototype.draw = function (){
 
 /* Cuando el conejo tenga todas las zanahorias de la pantalla aparece la madriguera para que puedas pasar
 de nivel si no vuelve a desaparecer. followObjects === objects? */
+//Después cuando el conejo pise la madriguera el juego termina y pasas de nivel.
