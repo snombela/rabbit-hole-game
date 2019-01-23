@@ -5,7 +5,8 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: white;
+    background-image: url("../img/fondo.jpeg");
+    background-repeat: repeat; 
 }
 
 #canvas {

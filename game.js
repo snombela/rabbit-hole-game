@@ -115,7 +115,7 @@ Game.prototype.passLevel = function (){
         if (Math.sqrt((this.player.x - this.hole.x) * (this.player.x - this.hole.x)+
             (this.player.y - this.hole.y) * (this.player.y - this.hole.y)) < this.player.size/2 + 
             this.hole.size/2) {
-           console.log("Win")
+           alert("Win")
            this.stop();
            this.levelUp()
         }
