@@ -5,7 +5,7 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-image: url("../img/fondo.jpeg");
+    background-image: url("../img/background.jpg");
     background-repeat: repeat; 
 }
 
