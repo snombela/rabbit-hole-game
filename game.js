@@ -15,7 +15,7 @@ function Game(canvasId) {
   this.numberEnemies = 2;
   this.objects = [];
   this.fps = 60;
-  this.initObject = 3;
+  this.initObject = 1;
   this.init();
 }
 
@@ -27,8 +27,7 @@ Game.prototype.generateEnemy = function (){
             }
     }
 }
-Game.prototype.init = function() {
-    this.player.draw();
+Game.prototype.generateObjects = function(){
     while (this.objects.length < this.initObject){
         var object = new Object(this);
         if (this.checkCollisionObject(object)!== true){
@@ -36,6 +35,10 @@ Game.prototype.init = function() {
         this.objects.push(object)
         }
     }
+}
+Game.prototype.init = function() {
+    this.player.draw();
+    this.generateObjects();
     this.generateEnemy();
     this.update();
 }
@@ -43,6 +46,9 @@ Game.prototype.init = function() {
 Game.prototype.update = function() {
     this.interval = setInterval(function() {
         this.ctx.clearRect(0, 0, 1500, 1700); 
+        if (this.player.followObject.length === this.initObject){
+            this.hole.draw();
+        }
         this.player.draw();
         this.player.move();
         this.objects.forEach(object => object.draw());
@@ -53,10 +59,9 @@ Game.prototype.update = function() {
         }.bind(this))
         this.collisionEnemy();
         this.stealObjects();
-        if (this.player.followObject.length === this.initObject){
-            console.log("son iguales")
-            this.hole.draw();
-        }
+        this.passLevel();
+        
+        
     }.bind(this), 1000 / this.fps);
 }
 
@@ -77,7 +82,7 @@ Game.prototype.collisionEnemy = function (){
             (this.player.y - enemy.y) * (this.player.y - enemy.y)) < this.player.size/2 + 
             enemy.size/2) {
            this.gameOver();
-           alert ("Game Over")
+           alert("Game Over")
         }
     }.bind(this));
 }
@@ -96,7 +101,6 @@ Game.prototype.stealObjects = function (){
 
     this.enemy.forEach(function(enemy){
         this.player.followObject.forEach(function(object, index) {
-
             var distance = Math.sqrt((enemy.x -  object.x) * (enemy.x - object.x) + (enemy.y - object.y) * (enemy.y - object.y))
             if (distance < enemy.size/2 + object.size/2){
                 var newObjectDraw = this.player.crash(object)
@@ -104,6 +108,17 @@ Game.prototype.stealObjects = function (){
             } 
         }.bind(this))
     }.bind(this))
+}
+
+Game.prototype.passLevel = function (){
+   
+        if (Math.sqrt((this.player.x - this.hole.x) * (this.player.x - this.hole.x)+
+            (this.player.y - this.hole.y) * (this.player.y - this.hole.y)) < this.player.size/2 + 
+            this.hole.size/2) {
+           console.log("Win")
+           this.stop();
+           this.levelUp()
+        }
 }
 
 Game.prototype.checkCollisionObject = function (object){
@@ -118,3 +133,9 @@ Game.prototype.checkCollisionEnemy = function (enemy){
     enemy.size/2) 
 }
 
+Game.prototype.levelUp = function(){
+    this.initObject += 5;
+    this.numberEnemies += 1;
+    this.enemy.speedY = Math.random() * 6; //Poner más que en el anterior.
+    this.enemy.speedX = Math.random() * 6; //Poner más que en el anterior.
+}
