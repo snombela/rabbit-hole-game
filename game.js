@@ -36,8 +36,8 @@ Game.prototype.update = function() {
         this.collisionObject();
         this.enemy.forEach(function(e){
             e.draw();
-            e.move();
-        })
+            if(this.player.movements.length > 1) e.move();
+        }.bind(this))
         this.collisionEnemy();
         this.stealObjects();
     }.bind(this), 1000 / this.fps);
@@ -92,3 +92,4 @@ Game.prototype.stealObjects = function (){
         
     }.bind(this))
 }
+

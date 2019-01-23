@@ -1,7 +1,7 @@
 function Object(game) {
     this.game = game
-    this.originalX = Math.random() * (this.game.canvas.width - 40) + 20
-    this.originalY = Math.random() * (this.game.canvas.height - 40) + 20
+    this.originalX = Math.random() * (this.game.canvas.width - 40) + 20;
+    this.originalY = Math.random() * (this.game.canvas.height - 40) + 20;
     this.x = this.originalX;
     this.y = this.originalY;
     this.size = 40;
