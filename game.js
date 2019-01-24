@@ -1,7 +1,3 @@
-window.onload = function() {
-    game = new Game("#canvas");
-};
-
 function Game(canvasId) {
   this.canvas = document.querySelector(canvasId);
   this.ctx = canvas.getContext("2d");
@@ -73,7 +69,7 @@ Game.prototype.gameOver = function() {
 
     setTimeout (function(){  
         this.init();
-    }.bind(this), 3000)
+    }.bind(this), 2500)
 } 
 
 Game.prototype.generateEnemy = function () {
