@@ -6,12 +6,10 @@ function Game(canvasId) {
   this.canvas = document.querySelector(canvasId);
   this.ctx = canvas.getContext("2d");
 
-  this.background = new Background(this);
+  this.images = new Images(this);
   this.player = new Player(this);
   this.hole = new Hole(this);
   this.text = new Text(this);
-  this.gameOverText = new GameOverText(this);
-  this.nextLevel = new NextLevel(this);
 
   this.carrot = new Audio("sounds/chewingcarrot.mp3")
   this.shout = new Audio("sounds/shout.mp3")
@@ -31,7 +29,7 @@ function Game(canvasId) {
 }
 
 Game.prototype.init = function() {
-    this.background.draw();
+    this.images.drawBackground();
     this.player.draw();
     this.generateObjects();
     this.generateEnemy();
@@ -53,7 +51,7 @@ Game.prototype.reset = function() {
 Game.prototype.levelUp = function() {
     this.magic.play();
     this.stop();
-    this.nextLevel.draw();
+    this.images.drawNextLevel();
     this.reset();
     this.initObject += 2;
     this.numberEnemies += 1;
@@ -66,7 +64,7 @@ Game.prototype.levelUp = function() {
 
 Game.prototype.gameOver = function() {
     this.stop();
-    this.gameOverText.draw();
+    this.images.drawGameOver();
     
     this.reset();
     this.initObject = 2;
@@ -100,7 +98,7 @@ Game.prototype.generateObjects = function() {
 Game.prototype.update = function() {
     this.interval = setInterval(function() {
         this.ctx.clearRect(0, 0, 1400, 700); 
-        this.background.draw();
+        this.images.drawBackground();
         
     
         if (this.player.followObject.length === this.initObject){
@@ -181,7 +179,6 @@ Game.prototype.passLevel = function (){
          
          if (distance < 40) { // pongo 40 porque es la distancia optima para que el conejo entre en la madriguera
             this.levelUp()
-            
          }
      }
  }
