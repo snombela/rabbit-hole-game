@@ -1,7 +1,7 @@
 function Hole (game){
     this.game = game;
     this.img = new Image();
-    this.img.src = "img/Hole.png"
+    this.img.src = "img/hole.png"
 
     this.width = 200;
     this.height = 120;

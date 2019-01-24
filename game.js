@@ -6,20 +6,24 @@ function Game(canvasId) {
   this.canvas = document.querySelector(canvasId);
   this.ctx = canvas.getContext("2d");
 
+  this.background = new Background(this);
   this.player = new Player(this);
   this.hole = new Hole(this);
+  this.text = new Text(this);
 
   this.enemy = [];
   this.objects = [];
 
   this.initObject = 1;
   this.numberEnemies = 2;
+  this.level = 1;
   
   this.fps = 60;
   this.init();
 }
 
 Game.prototype.init = function() {
+    this.background.draw();
     this.player.draw();
     this.generateObjects();
     this.generateEnemy();
@@ -43,6 +47,7 @@ Game.prototype.levelUp = function() {
     this.reset();
     this.initObject += 4;
     this.numberEnemies += 1;
+    this.level++;
     this.init();
 }
 
@@ -51,6 +56,7 @@ Game.prototype.gameOver = function() {
     this.reset();
     this.initObject = 1;
     this.numberEnemies = 2;
+
     this.init();
 } 
 
@@ -75,8 +81,10 @@ Game.prototype.generateObjects = function() {
 
 Game.prototype.update = function() {
     this.interval = setInterval(function() {
-        this.ctx.clearRect(0, 0, 1500, 1700); 
+        this.ctx.clearRect(0, 0, 1400, 700); 
+        this.background.draw();
         
+    
         if (this.player.followObject.length === this.initObject){
             this.hole.draw();
         }
@@ -87,6 +95,7 @@ Game.prototype.update = function() {
         }.bind(this))
         this.player.draw();
         this.player.move();
+        this.text.draw();
 
         this.collisionObject();
         this.collisionEnemy();
@@ -150,8 +159,10 @@ Game.prototype.passLevel = function (){
          (this.player.y - this.hole.y - this.hole.height/2) * (this.player.y - this.hole.y - this.hole.height/2))
          
          if (distance < 40) { // pongo 40 porque es la distancia optima para que el conejo entre en la madriguera
-             alert("Win");
+             alert("Next level!!!");
              this.levelUp()
          }
      }
  }
+
+ 
