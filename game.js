@@ -13,6 +13,12 @@ function Game(canvasId) {
   this.gameOverText = new GameOverText(this);
   this.nextLevel = new NextLevel(this);
 
+  this.carrot = new Audio("sounds/chewingcarrot.mp3")
+  this.shout = new Audio("sounds/shout.mp3")
+  this.magic = new Audio("sounds/hole.wav")
+  this.fox = new Audio("sounds/crazyLaught.mp3")
+//   this.carrot.volume?
+
   this.enemy = [];
   this.objects = [];
 
@@ -45,6 +51,7 @@ Game.prototype.reset = function() {
 }
 
 Game.prototype.levelUp = function() {
+    this.magic.play();
     this.stop();
     this.nextLevel.draw();
     this.reset();
@@ -120,6 +127,7 @@ Game.prototype.collisionObject = function() {
         if (Math.sqrt((this.player.x - object.originalX) * (this.player.x - object.originalX)+
         (this.player.y - object.originalY) * (this.player.y - object.originalY)) < this.player.size/2 + 
         object.size/2) {
+            this.carrot.play();
             var objectRemove = this.objects.splice(i, 1)[0];
             this.player.followObject.push(objectRemove)
         }
@@ -132,7 +140,8 @@ Game.prototype.collisionEnemy = function (){
             (this.player.y - enemy.y) * (this.player.y - enemy.y)) < this.player.size/2 + 
             enemy.size/2) {
            this.gameOver();
-        //    alert("Game Over")
+           this.shout.play();
+        
         }
     }.bind(this));
 }
@@ -144,6 +153,7 @@ Game.prototype.stealObjects = function (){
         this.player.followObject.forEach(function(object, index) {
             var distance = Math.sqrt((enemy.x -  object.x) * (enemy.x - object.x) + (enemy.y - object.y) * (enemy.y - object.y))
             if (distance < enemy.size/2 + object.size/2){
+                this.fox.play()
                 var newObjectDraw = this.player.crash(object)
                 this.objects.push(...newObjectDraw);
             } 
@@ -170,8 +180,8 @@ Game.prototype.passLevel = function (){
          (this.player.y - this.hole.y - this.hole.height/2) * (this.player.y - this.hole.y - this.hole.height/2))
          
          if (distance < 40) { // pongo 40 porque es la distancia optima para que el conejo entre en la madriguera
-            //  alert("Next level!!!");
-             this.levelUp()
+            this.levelUp()
+            
          }
      }
  }
