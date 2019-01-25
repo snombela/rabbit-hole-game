@@ -136,6 +136,7 @@ Game.prototype.collisionEnemy = function (){
             enemy.size/2) {
            this.gameOver();
            this.shout.play();
+           this.sound.pause();
         
         }
     }.bind(this));
