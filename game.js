@@ -11,7 +11,7 @@ function Game(canvasId) {
   this.shout = new Audio("sounds/shout.mp3")
   this.magic = new Audio("sounds/hole.wav")
   this.fox = new Audio("sounds/crazyLaught.mp3")
-//   this.carrot.volume?
+  this.sound = new Audio("sounds/POL-follow-me-short.wav")
 
   this.enemy = [];
   this.objects = [];
@@ -95,6 +95,7 @@ Game.prototype.update = function() {
     this.interval = setInterval(function() {
         this.ctx.clearRect(0, 0, 1400, 700); 
         this.images.drawBackground();
+        this.sound.play();
         
     
         if (this.player.followObject.length === this.initObject){
